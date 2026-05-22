@@ -231,12 +231,12 @@ let smoothBass = 0;
 
 // Palette de lignes : couleur, position relative (0-1), vitesse de phase, amplitude de base
 const LINES = [
-  { color: '#b06fff', yRel: 0.18, speed: 0.0008, baseAmp: 28, freq: 2.1 },
-  { color: '#ff3cac', yRel: 0.32, speed: 0.0011, baseAmp: 22, freq: 2.7 },
-  { color: '#00f5d4', yRel: 0.47, speed: 0.0007, baseAmp: 32, freq: 1.8 },
-  { color: '#b06fff', yRel: 0.61, speed: 0.0013, baseAmp: 20, freq: 3.1 },
-  { color: '#ff3cac', yRel: 0.74, speed: 0.0009, baseAmp: 26, freq: 2.4 },
-  { color: '#00f5d4', yRel: 0.87, speed: 0.0006, baseAmp: 18, freq: 1.5 },
+  { color: '#b06fff', yRel: 0.18, speed: 0.00008, baseAmp: 28, freq: 2.1 },
+  { color: '#ff3cac', yRel: 0.32, speed: 0.00011, baseAmp: 22, freq: 2.7 },
+  { color: '#00f5d4', yRel: 0.47, speed: 0.00007, baseAmp: 32, freq: 1.8 },
+  { color: '#b06fff', yRel: 0.61, speed: 0.00013, baseAmp: 20, freq: 3.1 },
+  { color: '#ff3cac', yRel: 0.74, speed: 0.00009, baseAmp: 26, freq: 2.4 },
+  { color: '#00f5d4', yRel: 0.87, speed: 0.00006, baseAmp: 18, freq: 1.5 },
 ];
 
 function resize() {
@@ -263,7 +263,7 @@ function drawLines() {
   for (const line of LINES) {
     const centerY = H * line.yRel;
     // bass boosts amplitude significantly
-    const amp = line.baseAmp + smoothBass * 120;
+    const amp = line.baseAmp * (0.05 + smoothBass * 3);
     const phase = t * line.speed * 1000;
 
     // draw 3 passes per line: wide soft glow, medium glow, sharp core
