@@ -174,6 +174,8 @@
 
 <audio id="audio" crossorigin="anonymous"></audio>
 
+
+
 <script>
 // =====================================================
 // 🎵 CATALOGUE
@@ -185,8 +187,8 @@ const catalogue = {
       { name: "Formula charo",     tags: ["Rap", "electro"],       duration: "4:15",  src: "https://ia902904.us.archive.org/28/items/formula-charo/Formula_charo.mp3" }
     ],
     transitions: [
-      { name: "Dark horse --> The Box",        tags: ["Hip-Hop", "pop"],duration: "2:50",  src: "https://ia802901.us.archive.org/18/items/dark_box/dark_box.mp3" },
-      { name: "Evil --> carnival",        tags: ["rap us"],     duration: "3:21",  src: "https://ia600504.us.archive.org/26/items/evil-carnival/Evil_carnival.mp3" },
+      { name: " The Box --> Dark horse",        tags: ["Hip-Hop", "pop"],duration: "2:50",  src: "https://ia802901.us.archive.org/18/items/dark_box/dark_box.mp3" },
+      { name: " carnival --> Evil",        tags: ["rap us"],     duration: "3:21",  src: "https://ia600504.us.archive.org/26/items/evil-carnival/Evil_carnival.mp3" },
       { name: "Feel this moment --> summer",        tags: ["pop, electro"],     duration: "4:55",  src: "https://ia902802.us.archive.org/22/items/feel_this_summer/feel_this_summer.mp3" }
     ],
     sets: [
@@ -252,15 +254,15 @@ function resize() {
 
 function emitShockwave(bass) {
   // émet 1-2 anneaux depuis le centre à chaque kick
-  const count = bass > 0.7 ? 2 : 1;
+  const count = bass > 0.6 ? 3 : 1;
   for (let i = 0; i < count; i++) {
     shockwaves.push({
       r: 0,
-      maxR: Math.min(W, H) * (0.5 + bass * 0.4),
-      alpha: 0.5 + bass * 0.3,
+      maxR: Math.min(W, H) * (0.8 + bass * 0.6),
+      alpha: 0.85 + bass * 0.15,
       color: ['#b06fff','#ff3cac','#00f5d4'][Math.floor(Math.random()*3)],
-      speed: 3 + bass * 5 + i * 1.5,
-      width: 1.5 + bass * 2
+      speed: 6 + bass * 10 + i * 2,
+      width: 3 + bass * 5
     });
   }
 }
@@ -274,7 +276,7 @@ function drawBg() {
 
   // détection de beat : pic soudain
   const delta = raw - prevBass;
-  if (delta > 0.18 && raw > 0.3) {
+  if (delta > 0.12 && raw > 0.25) {
     beatEnergy = raw;
     emitShockwave(raw);
   }
@@ -288,7 +290,7 @@ function drawBg() {
   for (const ring of RINGS) {
     t += ring.speed;
     const breathe = Math.sin(Date.now() * ring.speed * 6) * 0.06;
-    const beatBoost = smoothBass * 0.15 + beatEnergy * 0.12;
+    const beatBoost = smoothBass * 0.35 + beatEnergy * 0.45;
     const r = Math.min(W, H) * (ring.baseR + breathe + beatBoost);
 
     // glow large
@@ -381,6 +383,7 @@ const tagColors = {
   "rap us":   ["#ff6ec7","#b06fff"],
   "default":  ["#b06fff","#ff3cac"]
 };
+
 function getColors(tags) { return tagColors[(tags[0]||"").toLowerCase()] || tagColors["default"]; }
 function drawCover(canvas, tags, seed) {
   const c = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
@@ -485,6 +488,13 @@ function observeTracks(){
 buildFlatList();
 ['mashups','transitions','sets'].forEach(renderSection);
 observeTracks();
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && e.target === document.body) {
+    e.preventDefault();
+    togglePlay();
+  }
+});
 </script>
 </body>
 </html>
