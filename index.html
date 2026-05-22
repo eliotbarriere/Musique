@@ -249,7 +249,7 @@ function drawLines() {
 
   // smooth bass
   const raw = getBass();
-  smoothBass += (raw - smoothBass) * 0.15;
+  smoothBass += (raw - smoothBass) * 0.4;
 
   // beat flash: very subtle bg tint on kick
   if (smoothBass > 0.45) {
@@ -263,7 +263,7 @@ function drawLines() {
   for (const line of LINES) {
     const centerY = H * line.yRel;
     // bass boosts amplitude significantly
-    const amp = line.baseAmp * (0.05 + smoothBass * 3);
+    const amp = line.baseAmp * (0.05 + smoothBass * 7);
     const phase = t * line.speed * 1000;
 
     // draw 3 passes per line: wide soft glow, medium glow, sharp core
